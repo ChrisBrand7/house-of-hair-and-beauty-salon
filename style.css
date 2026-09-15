@@ -422,9 +422,25 @@ body.nav-open .nav-toggle span { background: var(--black); }
 }
 
 .hero-inner {
+  position: relative;
   max-width: 420px;
   margin: 0;
   padding-left: 7vw;
+}
+
+/* A dedicated dark "spotlight" behind just the text block, layered on top of
+   the whole-hero scrim, so the headline/tagline/button read as clearly
+   separated from the image rather than merely tinted by it. Sized to bleed
+   past the text on every side so it fades out smoothly at the block's edges. */
+.hero-inner::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  bottom: -60px;
+  left: -10vw;
+  right: -40px;
+  background: radial-gradient(ellipse 75% 70% at 35% 50%, rgba(20, 15, 12, 0.65) 0%, rgba(20, 15, 12, 0.35) 45%, transparent 75%);
+  pointer-events: none;
 }
 
 /* Hero text always sits on the photo + dark scrim, regardless of viewport,
@@ -443,7 +459,7 @@ body.nav-open .nav-toggle span { background: var(--black); }
   line-height: 1.05;
   letter-spacing: -0.02em;
   color: var(--cream);
-  text-shadow: 0 4px 30px rgba(43, 43, 43, 0.4);
+  text-shadow: 0 2px 10px rgba(43, 43, 43, 0.7);
 }
 
 .hero-mark-name {
@@ -454,6 +470,7 @@ body.nav-open .nav-toggle span { background: var(--black); }
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: rgba(247, 242, 234, 0.8);
+  text-shadow: 0 2px 10px rgba(43, 43, 43, 0.7);
   margin-top: 8px;
 }
 
@@ -462,6 +479,7 @@ body.nav-open .nav-toggle span { background: var(--black); }
   font-style: italic;
   font-size: clamp(1.1rem, 1.6vw, 1.3rem);
   color: var(--gold-light);
+  text-shadow: 0 2px 10px rgba(43, 43, 43, 0.7);
   margin: 0 0 32px;
 }
 
@@ -470,10 +488,12 @@ body.nav-open .nav-toggle span { background: var(--black); }
   align-items: center;
   gap: 10px;
   padding: 13px 26px;
-  border: 1.5px solid var(--cream);
+  border: 1.5px solid rgba(111, 78, 55, 0.9);
   border-radius: 0;
   color: var(--cream);
-  background: transparent;
+  /* solid-ish brown fill rather than a thin outline, so the button reads as
+     a clear tappable control against a busy photo, not just a faint border */
+  background: rgba(111, 78, 55, 0.88);
   font-family: var(--font-sans);
   font-size: 0.76rem;
   font-weight: 500;
@@ -487,8 +507,8 @@ a.btn-hero {
 
 .btn-hero:hover,
 .btn-hero:focus-visible {
-  background: var(--cream);
-  color: var(--black);
+  background: var(--gold-deep);
+  color: var(--cream);
   transform: translateY(-2px);
 }
 
@@ -879,14 +899,14 @@ a.btn-hero {
 
 /* This band is much wider and shorter at desktop than on mobile, so
    object-fit: cover crops a different (width-driven, not height-driven)
-   slice of the source photo — "center 30%" shows the plain counter and
-   blurred background chairs up top on a wide screen instead of the tray,
-   which sits in the lower half of the frame. Shift the focal point down
-   so the tray stays in view without touching the mobile crop. */
+   slice of the source video than on mobile — "center 30%" (tuned for the
+   mobile crop) pushes the wide desktop window down past the client's
+   face into a tight, context-free patch of skin and ear. Shift the focal
+   point back up so the face/eye stay in frame without touching mobile. */
 @media (min-width: 781px) {
   .experience-band video,
   .experience-band img {
-    object-position: center 78%;
+    object-position: center 18%;
   }
 }
 

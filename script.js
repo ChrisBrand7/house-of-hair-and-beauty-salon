@@ -44,9 +44,9 @@ function writeCart(items) {
   }
 }
 
-// ---------- Booking time slots (office hours, Sunday differs) ----------
-// Kept in sync with the hours printed in the footer: Mon–Sat 9:30am–5:30pm,
-// Sunday 10:30am–4pm.
+// ---------- Booking time slots (office hours, Saturday & Sunday differ) ----------
+// Kept in sync with the hours printed in the footer: Mon–Fri 8am–5pm,
+// Saturday 8am–1pm, Sunday closed.
 
 function formatTime12(hour, minute) {
   const period = hour < 12 ? 'am' : 'pm';
@@ -67,19 +67,23 @@ function buildTimeSlots(startHour, startMinute, endHour, endMinute, stepMinutes)
 }
 
 function timeSlotsForDate(dateValue) {
-  const isSunday = dateValue ? new Date(`${dateValue}T00:00:00`).getDay() === 0 : false;
-  return isSunday ? buildTimeSlots(10, 30, 16, 0, 30) : buildTimeSlots(9, 30, 17, 30, 30);
+  if (!dateValue) return buildTimeSlots(8, 0, 17, 0, 30);
+  const day = new Date(`${dateValue}T00:00:00`).getDay(); // 0 = Sunday, 6 = Saturday
+  if (day === 0) return []; // closed
+  if (day === 6) return buildTimeSlots(8, 0, 13, 0, 30);
+  return buildTimeSlots(8, 0, 17, 0, 30);
 }
 
 function populateTimeOptions(select, dateValue) {
   const previousValue = select.value;
   const slots = timeSlotsForDate(dateValue);
+  const isClosed = dateValue && slots.length === 0;
 
   select.innerHTML = '';
   const placeholder = document.createElement('option');
   placeholder.value = '';
   placeholder.disabled = true;
-  placeholder.textContent = 'Select a time';
+  placeholder.textContent = isClosed ? "Closed on Sundays" : 'Select a time';
   select.appendChild(placeholder);
 
   slots.forEach(slot => {
@@ -90,6 +94,7 @@ function populateTimeOptions(select, dateValue) {
   });
 
   select.value = slots.includes(previousValue) ? previousValue : '';
+  select.disabled = isClosed;
 }
 
 function formatDateForMessage(dateValue) {
@@ -733,7 +738,22 @@ function initServiceSelection() {
   })();
   dayInput.min = todayValue;
 
+  const dayErrorDefaultText = dayError.textContent;
+
+  function checkSundaySelected() {
+    const isSunday = dayInput.value && new Date(`${dayInput.value}T00:00:00`).getDay() === 0;
+    if (isSunday) {
+      dayError.textContent = "We're closed on Sundays — please choose another day.";
+      setFieldError(dayInput, dayError, true);
+    } else {
+      dayError.textContent = dayErrorDefaultText;
+      setFieldError(dayInput, dayError, false);
+    }
+    return isSunday;
+  }
+
   dayInput.addEventListener('change', () => {
+    checkSundaySelected();
     populateTimeOptions(timeInput, dayInput.value);
   });
   populateTimeOptions(timeInput, dayInput.value);
@@ -830,12 +850,13 @@ function initServiceSelection() {
     const time = timeInput.value;
     const notes = notesInput.value.trim();
 
+    const isSunday = day && checkSundaySelected();
     setFieldError(nameInput, nameError, !name);
-    setFieldError(dayInput, dayError, !day);
+    if (!isSunday) setFieldError(dayInput, dayError, !day);
     setFieldError(timeInput, timeError, !time);
 
-    if (!name || !day || !time) {
-      (!name ? nameInput : (!day ? dayInput : timeInput)).focus();
+    if (!name || !day || !time || isSunday) {
+      (!name ? nameInput : ((!day || isSunday) ? dayInput : timeInput)).focus();
       return;
     }
 
