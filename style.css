@@ -652,19 +652,26 @@ body.page-services { background: #ffffff; }
   display: grid;
   grid-template-columns: 0.85fr 1.15fr;
   gap: var(--sp-12);
-  align-items: center;
+  /* stretch rather than centre a fixed-ratio box, so the photo fills the
+     full height of the text column beside it instead of leaving whitespace
+     under a shorter image */
+  align-items: stretch;
 }
 
 .services-media img {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 5;
+  height: 100%;
+  min-height: 420px;
   object-fit: cover;
+  /* biased down and off-centre onto the stylist/client moment — the shelf
+     edge at the very top of the source photo crops awkwardly at 50/50 */
+  object-position: 60% 65%;
 }
 
 @media (max-width: 780px) {
   .services-layout { grid-template-columns: 1fr; gap: var(--sp-6); }
-  .services-media img { aspect-ratio: 4 / 3; }
+  .services-media img { height: auto; min-height: 0; aspect-ratio: 4 / 3; }
 }
 
 .page-title {
