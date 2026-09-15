@@ -1,4 +1,4 @@
-// K3 Hair & Beauty Salon — scroll reveal, header scroll state, mobile nav, testimonial carousel
+// House of Hair & Beauty — scroll reveal, header scroll state, mobile nav, testimonial carousel
 
 document.addEventListener('DOMContentLoaded', () => {
   const yearEl = document.getElementById('year');
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // survives clicking Home/Reviews/Contact and coming back, but never lingers
 // for a visitor who returns another day — it clears when the tab closes.
 
-const CART_STORAGE_KEY = 'k3-cart';
+const CART_STORAGE_KEY = 'hohb-cart';
 
 function slugify(text) {
   return text.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-+|-+$)/g, '');
@@ -483,7 +483,7 @@ function initServiceSelection() {
   const panel = document.getElementById('selection-panel');
   if (!rows.length || !panel) return;
 
-  const WHATSAPP_NUMBER = '27720532326';
+  const WHATSAPP_NUMBER = '27609820397';
 
   // A name is ambiguous (needs its category spelled out) when it repeats
   // under more than one heading, e.g. "Eyebrow" under both Threading and
@@ -850,7 +850,7 @@ function initServiceSelection() {
 
     const { sum, anyFrom } = computeTotals();
     const lines = [
-      "Hi K3, I'd like to book.",
+      "Hi House of Hair & Beauty, I'd like to book.",
       '',
       `Name: ${name}`,
       `Preferred day: ${formatDateForMessage(day)}`,

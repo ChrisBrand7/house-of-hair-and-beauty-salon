@@ -12,46 +12,49 @@ Static HTML/CSS/JS (no framework, no build step) — existing, confirmed by repo
 
 ## Users
 
-Primary users are local residents of Umhlanga / Durban researching and booking routine beauty services (threading, waxing, facials, manicure/pedicure, hair). They arrive intending to check services, pricing, and real reviews, then book via WhatsApp. A secondary, less central audience is beach-area visitors/tourists staying nearby who discover K3 as a convenient local salon (reflected in a couple of the real Google reviews), but the site is built primarily for the local-resident use case.
+Primary users are local residents of Paradyskloof / Stellenbosch researching and booking hair and beauty services, then booking via WhatsApp.
 
 ## Product Purpose
 
-A single-page marketing/booking site for K3 Hair & Beauty Salon, a real, operating salon in Umhlanga, Durban. It exists to showcase the salon's interior, services, and pricing, build trust via real Google reviews, and convert visitors into WhatsApp bookings. Success = a visitor finding what they need (service, price, hours, location) and messaging K3 on WhatsApp to book.
+A single-page marketing/booking site for House of Hair & Beauty, a real, operating salon in Paradyskloof, Stellenbosch. It exists to showcase the salon's interior, team, and services, build trust via real Google reviews, and convert visitors into WhatsApp bookings.
 
 ## Positioning
 
-One-stop convenience: threading, waxing, facials, manicure/pedicure, and hair services are all available in a single visit at one salon, rather than a client needing to visit separate specialists. This is reinforced by real reviews (e.g. a client praising getting mani/pedi, waxing, threading, and a haircut all in one visit) and should stay the throughline in future copy — K3 is the one-stop, not just the prettiest room.
+A family-run salon: owner Liana Nel and her daughter Carla Nel run the floor together. Real reviews repeatedly praise specific named stylists (Hanli Langer, Clarece, Elize, Janine, Stephanie, Stefani) and long-standing customer loyalty — this personal, long-tenure feel should stay the throughline in future copy.
 
 ## Operating Context
 
-- Address: 18 Weaver Crescent, Umhlanga, Durban.
-- Hours: Monday–Saturday 9:30am–5:30pm, Sunday 10:30am–4:00pm.
-- Booking channel: WhatsApp (`https://wa.me/27720532326`, pre-filled with "Hi K3, I'd like to book an appointment."). The same number is published as a `tel:` link in the footer: `+27 72 053 2326`, displayed locally as 072 053 2326. No online booking system (e.g. Fresha) has been provided; do not add placeholder links for one.
-- Rating shown: 4.9 on Google (real, screenshot-sourced).
+- Address: 37 Canterbury Ln, Paradyskloof, Stellenbosch, 7600 (confirmed via the business's real Google Maps listing).
+- Hours: Mon–Fri 8:00am–5:00pm, Saturday 8:00am–1:00pm, Sunday closed (confirmed via Google Maps listing).
+- Published landline: 021 880 1729 (real, shown on the storefront signage and Google Maps listing) — used for `tel:` links.
+- WhatsApp booking number: `https://wa.me/27609820397` (+27 60 982 0397) — supplied directly by the client as a temporary number; the salon does not yet have its own dedicated WhatsApp number.
+- Rating shown: 4.6 on Google, 98 reviews (real, from the business's Google Maps listing).
 
 ## Capabilities and Constraints
 
-- All pricing on the site is real and must stay in sync with the salon's actual price list — never invent or round prices.
-- All Google reviews displayed must be real, verbatim (or lightly trimmed) quotes from actual reviewers with their real names — never fabricate a testimonial.
-- Gallery photos and videos must be real footage/photos of the actual K3 salon and treatments, not generic stock — a few candidate images with a synthetic/stock look have been deliberately excluded from the gallery for this reason.
-- No online booking tool, loyalty program, or e-commerce is in scope; WhatsApp is the entire "booking system."
+- All Google reviews displayed must be real, verbatim (or lightly trimmed) quotes from actual reviewers with their real names — currently 5 reviews selected from a larger real batch supplied by the client (Hayley Basson, Faieza Paloan, Corli Bosman, Gerhard Olivier, Marcelle du Plessis), filtered to recent (within ~1 year) and positive.
+- Gallery photos are real photos of the actual salon and team, supplied by the client (`images/hero-image.jpg`, `images/customer-care.jpg`, `images/two-generations.jpg`, `images/treat-yourself.jpg`, plus unused-for-now `our-team-1.jpg`, `our-team-2.jpg`, `laugh-with-us.jpg`, `product-range.jpg`, `storefront.jpg`).
+- **Open / not yet real — do not treat as launch-ready:**
+  - **Full price list** (`services.html` and the category list in `index.html#services`) still shows the previous client's (K3 Hair & Beauty Salon's) real pricing and service categories (Threading, Waxing, Facials, Nails, Hair, Make-up, Massage, Mehndi). This has NOT been confirmed for House of Hair & Beauty and must be replaced with real services/pricing before launch. Flagged with `TODO` HTML comments in both files.
+  - **Social media links** (Instagram, TikTok, Facebook) are placeholder `#` hrefs — real handles not yet supplied.
+  - **Business email** — not yet supplied; privacy-policy.html and terms.html currently route contact via phone/WhatsApp only.
+  - **WhatsApp number** is a temporary personal number provided by the client, not the salon's own — replace once the salon has one.
 
 ## Brand Commitments
 
-- Name: K3 Hair & Beauty Salon.
-- Established visual identity (already implemented, not yet recorded in DESIGN.md): cream/black/gold palette, serif display type (Cormorant Garamond) paired with a clean sans body (Jost), boutique/editorial-spa tone matching the salon's actual marble-and-gold interior.
+- Name: House of Hair & Beauty (Google Business listing: "House Of Hair And Beauty"; storefront signage reads "House of Hair").
+- Visual identity carried over from the previous build (not yet reviewed against this brand): cream/black/gold palette, Prata display type paired with Manrope body (Pairing B — High Contrast Fashion).
 
 ## Evidence on Hand
 
-- Real Google reviews currently on site: Taslimah Sayers, Aamina Saleh, Dianne Govender, Ayesha Aboobaker, and (newly added) Farhaad Shaik.
-- Real photos/videos of the salon interior, styling stations, pedicure lounge, threading, mani/pedi, and hair treatments in `images/` and `videos/`.
-- Real pricing for Threading, Waxing, Facials, and Manicure/Pedicure (see `index.html` Services section).
-- Real address and now-confirmed real operating hours (see Operating Context).
-- No social media handles or additional booking-channel links have been supplied — do not fabricate.
+- Real Google Maps listing: name, address, hours, phone, 4.6★ (98 reviews).
+- Real, recent Google reviews (full batch supplied by client; 5 selected for the site).
+- Real photos of the salon interior, team, and owners (Liana & Carla Nel) in `images/`.
+- No real pricing, social handles, or business email supplied yet — do not fabricate.
 
 ## Product Principles
 
-1. Every claim on the page (price, review, hours, location, photo) must be real and verifiable — this is a real local business, not a template.
-2. Lead with one-stop convenience across services, not just ambiance, in copy and structure.
-3. WhatsApp is the single, unambiguous path to action — every section should make booking one tap away, not compete with alternate CTAs.
-4. Preserve the boutique/editorial visual identity already built (cream/black/gold, serif+sans pairing) when adding new content; new sections should read as part of the same system, not bolted on.
+1. Every claim on the page (review, hours, location, photo) must be real and verifiable — this is a real local business, not a template.
+2. Do not reuse the previous client's (K3) real business data — address, phone, reviews, or pricing — under this business's name.
+3. WhatsApp is the single, unambiguous path to action — every section should make booking one tap away.
+4. Preserve the boutique/editorial visual identity (cream/black/gold, serif+sans pairing) when adding new content.
