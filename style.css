@@ -1,0 +1,2219 @@
+/* ==========================================================================
+   K3 Hair & Beauty Salon — Stylesheet
+   Design system: CLAUDE.md — sharp geometry, restrained editorial, one motion
+   treatment, header transitions on scroll, single-quote testimonials.
+   ========================================================================== */
+
+:root {
+  --cream: #f7f2ea;
+  --cream-alt: #f0e9dd;
+  --black: #1a1714;
+  --black-soft: #262220;
+  --gold: #b8935a;
+  --gold-light: #d4b483;
+  --gold-deep: #9c6a1f;
+  --ink: #2b2622;
+  --ink-muted: #6b6259;
+  --border: rgba(26, 23, 20, 0.1);
+
+  --font-serif: 'Prata', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --max-width: 1160px;
+
+  /* spacing scale */
+  --sp-1: 8px;
+  --sp-2: 16px;
+  --sp-3: 24px;
+  --sp-4: 32px;
+  --sp-6: 48px;
+  --sp-8: 64px;
+  --sp-12: 96px;
+  --sp-16: 128px;
+  --sp-20: 160px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scroll lock while the mobile menu is open. Position-fixed rather than plain
+   overflow:hidden, which mobile Safari ignores; script.js stores the scroll
+   offset in `top` and restores it on close. */
+body.nav-open {
+  position: fixed;
+  left: 0;
+  right: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+img { max-width: 100%; display: block; }
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  color: var(--black);
+  margin: 0;
+}
+
+a { color: inherit; text-decoration: none; }
+
+:focus-visible {
+  outline: 2px solid var(--gold-deep);
+  outline-offset: 3px;
+}
+
+.section-title {
+  font-size: clamp(1.9rem, 3.5vw, 2.6rem);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin-bottom: 48px;
+}
+
+.section-title.center { text-align: center; }
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  border-radius: 0;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--black);
+  color: var(--cream);
+  border: 1px solid var(--black);
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  background: var(--cream);
+  color: var(--black);
+  transform: translateY(-2px);
+}
+
+.btn-small {
+  padding: 10px 22px;
+  font-size: 0.82rem;
+  background: var(--black);
+  color: var(--cream);
+  border: 1px solid var(--black);
+}
+
+.btn-small:hover,
+.btn-small:focus-visible {
+  background: var(--cream);
+  color: var(--black);
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn { transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
+  .btn:hover, .btn:focus-visible { transform: none; }
+}
+
+/* ---------- Header ---------- */
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.35s ease;
+}
+
+/* The blur lives on a pseudo-element, NOT on .site-header itself. A
+   backdrop-filter makes an element the containing block for its
+   position: fixed descendants — with it on the header, the mobile nav overlay
+   collapsed to the header's own 64px box the moment the header went
+   translucent, i.e. everywhere except the very top of the page. */
+.site-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: transparent;
+  transition: background-color 0.35s ease, backdrop-filter 0.35s ease;
+}
+
+.site-header.is-scrolled::before {
+  background-color: rgba(247, 242, 234, 0.8);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.site-header.is-scrolled {
+  border-bottom-color: rgba(26, 23, 20, 0.08);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .site-header.is-scrolled::before { background-color: rgba(247, 242, 234, 0.94); }
+}
+
+.header-inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 24px;
+  height: 84px;
+}
+
+.logo {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--cream);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+  transition: color 0.35s ease, text-shadow 0.35s ease;
+}
+
+.site-header.is-scrolled .logo { color: var(--black); text-shadow: none; }
+
+/* the mark is a link back to the home page on both pages */
+a.logo:hover,
+a.logo:focus-visible { color: var(--gold-light); }
+
+.site-header.is-scrolled a.logo:hover,
+.site-header.is-scrolled a.logo:focus-visible { color: var(--gold-deep); }
+
+.nav {
+  display: flex;
+  justify-content: center;
+  gap: clamp(16px, 3vw, 36px);
+}
+
+.nav a {
+  font-size: 0.88rem;
+  letter-spacing: 0.03em;
+  color: var(--cream);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+  position: relative;
+  padding-bottom: 4px;
+  transition: color 0.35s ease, text-shadow 0.35s ease;
+}
+
+.site-header.is-scrolled .nav a { color: var(--ink); text-shadow: none; }
+body.nav-open .nav a { text-shadow: none; }
+
+.nav a::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 1px;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease;
+}
+
+.nav a:hover::after,
+.nav a:focus-visible::after { transform: scaleX(1); }
+
+/* current page: standing underline and accent colour, on both the inline nav
+   and the mobile overlay */
+.site-header .nav a[aria-current="page"] { color: var(--gold-deep); }
+
+.site-header .nav a[aria-current="page"]::after {
+  background: var(--gold-deep);
+  transform: scaleX(1);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  justify-self: end;
+}
+
+/* Hidden over the hero (nothing to compete with the hero's own WhatsApp CTA)
+   and revealed once the visitor has scrolled past it — driven by the same
+   body.is-past-hero flag as the mobile floating button, set in script.js.
+   Opacity/pointer-events only, so the hamburger button never shifts. */
+.header-actions .btn-small {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+body.is-past-hero .header-actions .btn-small {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header-actions .btn-small { transition: opacity 0.2s ease, background-color 0.2s ease, color 0.2s ease; }
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  z-index: 110;
+  position: relative;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: var(--cream);
+  transition: background-color 0.35s ease, transform 0.25s ease, opacity 0.25s ease;
+}
+
+.site-header.is-scrolled .nav-toggle span { background: var(--black); }
+body.nav-open .nav-toggle span { background: var(--black); }
+
+.nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+@media (max-width: 900px) {
+  .nav a { font-size: 0.82rem; }
+}
+
+/* Mobile header: matches the site's main 780px mobile breakpoint, so there is
+   no band where the inline desktop links crowd the WhatsApp button. */
+@media (max-width: 780px) {
+  .header-inner { height: 64px; gap: 12px; }
+
+  .nav-toggle { display: flex; }
+
+  /* Inline links never render at mobile — the nav becomes a full-screen
+     overlay, parked off-screen until opened. */
+  .nav {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 105;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-4);
+    /* fully opaque — page content must never show through */
+    background-color: var(--cream);
+    transform: translateY(-100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    overscroll-behavior: contain;
+  }
+
+  .nav.is-open { transform: translateY(0); }
+
+  .nav a {
+    color: var(--ink);
+    font-size: 1.1rem;
+    padding: 8px 0;
+  }
+
+  .nav a::after { display: none; }
+
+  /* smaller WhatsApp pill so mark + button + hamburger all breathe */
+  .header-actions { gap: 12px; }
+
+  .header-actions .btn-small {
+    padding: 8px 14px;
+    font-size: 0.72rem;
+    letter-spacing: 0.01em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav { transition: none; }
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  text-align: left;
+  overflow: hidden;
+  color: var(--ink);
+}
+
+.hero .container {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.hero-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 58% 40%;
+  animation: heroScaleIn 6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes heroScaleIn {
+  from { transform: scale(1.08); }
+  to { transform: scale(1); }
+}
+
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  /* subtle top scrim only, for header legibility over the image */
+  background: linear-gradient(180deg, rgba(15, 13, 11, 0.32) 0%, transparent 160px);
+}
+
+.hero-inner {
+  max-width: 420px;
+  margin: 0;
+  padding-left: 7vw;
+}
+
+.hero-mark {
+  margin: 0 0 18px;
+  color: var(--black);
+}
+
+.hero-mark-k3 {
+  display: block;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(3.2rem, 6.2vw, 4.4rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--black);
+}
+
+.hero-mark-name {
+  display: block;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: clamp(0.85rem, 1.3vw, 1rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-top: 8px;
+}
+
+.tagline {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+  color: var(--gold-deep);
+  margin: 0 0 32px;
+}
+
+.btn-hero {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 26px;
+  border: 1.5px solid var(--black);
+  border-radius: 0;
+  color: var(--black);
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+a.btn-hero {
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-hero:hover,
+.btn-hero:focus-visible {
+  background: var(--black);
+  color: var(--cream);
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-media img { animation: none; }
+  .btn-hero { transition: background-color 0.2s ease, color 0.2s ease; }
+  .btn-hero:hover, .btn-hero:focus-visible { transform: none; }
+}
+
+@media (max-width: 780px) {
+  .hero-inner { max-width: 100%; padding-left: 28px; padding-right: 28px; }
+  .hero-media img { object-position: 80% 38%; }
+  .hero-mark, .hero-mark-k3, .hero-mark-name { color: var(--cream); }
+  .hero-mark-k3 { text-shadow: 0 4px 30px rgba(0, 0, 0, 0.4); }
+  .hero-mark-name { color: rgba(247, 242, 234, 0.8); }
+  .tagline { color: var(--gold-light); }
+  .btn-hero { border-color: var(--cream); color: var(--cream); }
+  .btn-hero:hover, .btn-hero:focus-visible { background: var(--cream); color: var(--black); }
+  .hero-scrim {
+    background: linear-gradient(90deg, rgba(15, 13, 11, 0.62) 0%, rgba(15, 13, 11, 0.4) 45%, rgba(15, 13, 11, 0.15) 75%);
+  }
+}
+
+/* ---------- Sections ---------- */
+
+.section { padding: 128px 0; }
+.section-alt { background: var(--cream-alt); }
+
+/* Anchor targets: offset by the fixed header's height plus a small buffer,
+   so a jump-to never leaves the section heading hidden underneath it */
+#the-space, #services, #reviews, #testimonials, #contact { scroll-margin-top: 112px; }
+
+/* mobile header is 64px — clear it plus a comfortable buffer so a heading is
+   never sliced by the bar it lands under */
+@media (max-width: 780px) {
+  #the-space, #services, #reviews, #testimonials, #contact { scroll-margin-top: 96px; }
+}
+
+/* Sections that follow a full-bleed image/video: sit flush, no dead cream band */
+#testimonials { padding-top: var(--sp-4); }
+
+/* Testimonials are a tight, single block — no oversized default section padding.
+   Kept deliberately tighter than most sections so the video + full testimonial
+   block (heading, quote, attribution, indicators) fit one viewport together. */
+#testimonials { padding-bottom: var(--sp-6); }
+
+.section-dark {
+  background: var(--black);
+  color: var(--cream);
+  padding-bottom: 80px;
+}
+
+.section-dark .section-title,
+.section-dark h2 { color: var(--cream); }
+
+@media (max-width: 780px) {
+  .section { padding: 72px 0; }
+  #testimonials { padding-top: var(--sp-4); }
+  #testimonials { padding-bottom: var(--sp-6); }
+}
+
+/* ---------- Services index (home) ---------- */
+
+/* The eight category names as a plain typographic list. Prices live on
+   services.html, so the home page names the categories and nothing else. */
+.service-index {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 760px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(4, auto);
+  gap: 0 var(--sp-12);
+}
+
+.service-index li {
+  border-bottom: 1px solid var(--border);
+}
+
+.service-index li a {
+  display: block;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 1.15rem;
+  color: var(--black);
+  text-decoration: none;
+  padding: 20px 2px;
+  transition: color 200ms ease, opacity 200ms ease;
+}
+
+.service-index li a:hover,
+.service-index li a:focus-visible {
+  color: var(--gold);
+  opacity: 0.85;
+}
+
+.service-index li a:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.service-index-cta {
+  margin-top: var(--sp-8);
+  text-align: center;
+}
+
+/* Text link for light backgrounds. Uses ink rather than the gold accent, which
+   only carries enough contrast against the dark sections. */
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+  transition: gap 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.text-link:hover,
+.text-link:focus-visible {
+  gap: 12px;
+  color: var(--gold-deep);
+  border-color: var(--gold-deep);
+}
+
+@media (max-width: 700px) {
+  .service-index { grid-auto-flow: row; grid-template-rows: none; }
+}
+
+/* ---------- Price list page ---------- */
+
+.page-head { padding-bottom: var(--sp-8); }
+
+.page-head-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  align-items: stretch;
+  gap: var(--sp-12);
+}
+
+@media (max-width: 900px) {
+  .page-head-grid { grid-template-columns: 1fr; gap: var(--sp-6); }
+}
+
+.page-title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(2rem, 3.5vw, 2.6rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--black);
+  margin: 0 0 var(--sp-3);
+}
+
+.page-intro {
+  max-width: 62ch;
+  margin: 0 0 var(--sp-2);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+.page-intro:last-of-type { margin-bottom: 0; }
+
+.page-terms {
+  max-width: 62ch;
+  margin: var(--sp-2) 0 0;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--ink-muted);
+}
+
+.price-section { padding-top: 0; }
+
+/* ---------- Legal pages (Privacy Policy, Terms of Service) ---------- */
+
+.legal-section { padding-top: 0; padding-bottom: var(--sp-16); }
+
+.legal-content { max-width: 68ch; }
+
+.legal-content p {
+  margin: 0 0 var(--sp-2);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+.legal-content h2 {
+  font-size: 1.3rem;
+  font-weight: 400;
+  margin: var(--sp-6) 0 var(--sp-2);
+}
+
+.legal-content h2:first-child { margin-top: 0; }
+
+.legal-content ul {
+  margin: 0 0 var(--sp-2);
+  padding-left: 1.2em;
+}
+
+.legal-content li {
+  margin-bottom: 8px;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+.legal-content a {
+  color: var(--gold-deep);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+
+.legal-content a:hover,
+.legal-content a:focus-visible { color: var(--black); }
+
+@media (max-width: 600px) {
+  .legal-section { padding-bottom: var(--sp-8); }
+}
+
+.price-layout {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: var(--sp-12);
+  align-items: start;
+}
+
+/* sticky on desktop, offset below the fixed header */
+.cat-index { position: sticky; top: 116px; }
+
+.cat-index ul { list-style: none; margin: 0; padding: 0; }
+
+.cat-index li { margin-bottom: 12px; }
+
+.cat-index a {
+  display: inline-block;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--ink);
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.cat-index a:hover,
+.cat-index a:focus-visible { color: var(--black); border-bottom-color: var(--gold); }
+
+.price-group {
+  scroll-margin-top: 112px;
+  margin-bottom: var(--sp-12);
+}
+
+.price-group h2 {
+  position: relative;
+  font-size: 1.55rem;
+  margin-bottom: 26px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.price-group h2::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -1px;
+  width: 42px;
+  height: 2px;
+  background: var(--gold);
+}
+
+.price-list-full { list-style: none; margin: 0; padding: 0; }
+
+/* long categories run two columns on desktop */
+.price-list-full.is-two-col {
+  columns: 2;
+  column-gap: var(--sp-12);
+}
+
+.price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 14px 0;
+  font-size: 0.94rem;
+  line-height: 1.3;
+  color: var(--ink);
+  break-inside: avoid;
+}
+
+.price-name { flex: 1 1 auto; line-height: 1.3; }
+
+.price-dur {
+  flex: 0 0 auto;
+  font-size: 0.68rem;
+  line-height: 1.3;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+/* Massage is the one category with a duration column. Without a fixed name
+   width, the duration's start position drifts with each row's name length
+   ("Extra" vs "Back, Head, Neck & Shoulder"), so nothing lines up. A fixed
+   column (sized to the longest name, "Back, Head, Neck & Shoulder") pins the
+   duration — and everything after it — to one shared edge on every row. */
+#massage .price-name { flex: 0 0 210px; }
+
+@media (max-width: 600px) {
+  #massage .price-name { flex: 0 0 140px; }
+}
+
+.price-leader {
+  flex: 1 1 auto;
+  min-width: 16px;
+  align-self: flex-end;
+  margin-bottom: 0.42em;
+  border-bottom: 1px dotted var(--border);
+}
+
+.price-amt {
+  flex: 0 0 auto;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 1.05rem;
+  line-height: 1.3;
+  color: var(--black);
+  text-align: right;
+}
+
+/* Only the "from" qualifier is muted — the number itself stays styled
+   exactly like a fixed price, so R150 reads the same whether or not it's
+   a starting price. Font-family/size match the fixed-price amount so
+   every row's baseline lands in the same place regardless of price type. */
+.price-amt-from {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  color: var(--ink-muted);
+}
+
+.combo-note {
+  padding-left: var(--sp-6);
+  border-left: 1px solid var(--border);
+}
+
+.combo-note h2 { font-size: 1.35rem; margin-bottom: 12px; }
+
+.combo-note p {
+  max-width: 42ch;
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+@media (max-width: 900px) {
+  .combo-note {
+    padding-left: 0;
+    border-left: none;
+    padding-top: var(--sp-6);
+    border-top: 1px solid var(--border);
+  }
+}
+
+@media (max-width: 900px) {
+  .price-layout { grid-template-columns: 1fr; gap: var(--sp-6); }
+  /* index becomes a simple row at the top */
+  .cat-index { position: static; }
+  .cat-index ul { display: flex; flex-wrap: wrap; gap: 10px 18px; }
+  .cat-index li { margin-bottom: 0; }
+  .price-list-full.is-two-col { columns: 1; }
+}
+
+@media (max-width: 780px) {
+  .price-group { scroll-margin-top: 96px; margin-bottom: var(--sp-8); }
+}
+
+/* ---------- Experience band ---------- */
+
+.experience-band {
+  position: relative;
+  isolation: isolate;
+  height: 45vh;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: var(--cream);
+}
+
+.experience-band video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  z-index: -2;
+}
+
+.experience-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(15, 13, 11, 0.5) 0%, rgba(15, 13, 11, 0.35) 50%, rgba(15, 13, 11, 0.6) 100%);
+}
+
+.experience-inner { text-align: center; }
+
+.experience-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin: 0 0 14px;
+}
+
+.experience-inner .section-title {
+  color: var(--cream);
+  margin-bottom: 0;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 600px) {
+  .experience-band { height: 45vh; min-height: 320px; }
+}
+
+/* ---------- Gallery: alternating editorial rows ---------- */
+
+.editorial-rows { margin-top: 0; }
+
+.editorial-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* each row gets its own near-full viewport: you scroll, you get one image and
+     one write-up, you scroll again, you get the next. Shared across both rows,
+     so every image renders at the same proportions. */
+  min-height: 90vh;
+}
+
+/* Row 1 is text-left / image-right; row 2 reverses. Still alternating — just
+   starting on the opposite side, so the first write-up leads on the left. */
+.editorial-row:nth-child(odd) .editorial-media { order: 2; }
+.editorial-row:nth-child(odd) .editorial-copy { order: 1; }
+
+.editorial-media {
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* absolutely positioned so the image fills the row's full height edge to edge
+   regardless of how the row resolves its own height */
+.editorial-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.editorial-media:hover img { transform: scale(1.04); }
+
+.editorial-copy {
+  display: flex;
+  flex-direction: column;
+  /* the text block sits dead-centre in its half, horizontally and vertically */
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+  min-width: 0;
+  padding: 96px 7%;
+}
+
+/* Every element in the block takes the same width, so centring them keeps the
+   heading, body and descriptor sharing one left edge rather than each being
+   centred independently. */
+.editorial-copy > * {
+  width: min(380px, 100%);
+}
+
+.editorial-copy h3 {
+  /* modest — the hierarchy comes from the change of typeface, not from scale */
+  font-size: clamp(1.5rem, 0.6vw + 1.25rem, 1.9rem);
+  line-height: 1.2;
+  margin-bottom: 22px;
+}
+
+.editorial-copy p {
+  font-size: 0.85rem;
+  font-weight: 300;
+  line-height: 1.65;
+  /* narrow measure — never the full half-width (width set above) */
+  color: var(--ink);
+  margin: 0;
+}
+
+.editorial-copy .editorial-descriptor {
+  margin-top: 18px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+@media (max-width: 780px) {
+  .editorial-rows { margin-top: 0; }
+  .editorial-row {
+    grid-template-columns: 1fr;
+    /* single column, image above text — height follows content, not the viewport */
+    min-height: 0;
+  }
+  .editorial-row:nth-child(odd) .editorial-media { order: 1; }
+  .editorial-row:nth-child(odd) .editorial-copy { order: 2; }
+  /* fixed aspect ratio rather than a slice of the viewport */
+  .editorial-media { aspect-ratio: 4 / 5; }
+  .editorial-copy { padding: 48px 28px; }
+  .editorial-copy p { font-size: 0.875rem; }
+  /* sized to sit on one line at 375px, so the sign-off never orphans a word */
+  .editorial-copy .editorial-descriptor {
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editorial-media img { transition: none; }
+}
+
+/* ---------- Testimonial (left-aligned editorial pull quote) ---------- */
+
+.testimonial-heading {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(1.4rem, 1.6vw + 1rem, 1.75rem);
+  letter-spacing: -0.01em;
+  color: var(--black);
+  margin: 0 0 var(--sp-3);
+  max-width: 620px;
+}
+
+.testimonial {
+  max-width: 620px;
+  margin: 0;
+  text-align: left;
+}
+
+.testimonial:focus-visible { outline-offset: 8px; }
+
+.testimonial-track {
+  /* All four quotes are stacked in a single grid cell, so the track's height is
+     the height of the LONGEST quote at any given width — computed by the browser
+     rather than hardcoded, and identical whichever quote is currently active.
+     Rotating quotes therefore cannot reflow anything below the carousel (this
+     was a cumulative-layout-shift bug: the page jumped every 4 seconds).
+     Height must never be driven by the active slide, from CSS or from JS. */
+  display: grid;
+  overflow: hidden;
+}
+
+.testimonial-slide {
+  grid-area: 1 / 1;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  transform: translateX(100%);
+  pointer-events: none;
+  transition: transform 0.6s var(--ease);
+}
+
+.testimonial-slide.is-active {
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.testimonial-slide p {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-style: normal;
+  font-size: clamp(1.0625rem, 0.3vw + 1rem, 1.1875rem);
+  line-height: 1.8;
+  color: var(--ink);
+  margin: 0 0 20px;
+}
+
+.testimonial-slide cite {
+  display: block;
+  font-style: normal;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.testimonial-nums {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  margin-top: var(--sp-3);
+}
+
+.testimonial-num {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-muted);
+  opacity: 0.45;
+  cursor: pointer;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.testimonial-num::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.testimonial-num:hover,
+.testimonial-num:focus-visible {
+  opacity: 0.75;
+}
+
+.testimonial-num.is-active {
+  color: var(--ink);
+  opacity: 1;
+}
+
+.testimonial-num.is-active::before { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* instant change: no slide, just show/hide — !important beats the inline
+     transform the carousel JS sets during navigation. The slides stay in the
+     shared grid cell, so the track keeps its longest-quote height here too. */
+  .testimonial-slide {
+    transition: none !important;
+    transform: none !important;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .testimonial-slide.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+/* ---------- Contact ---------- */
+
+.section-dark { position: relative; overflow: hidden; }
+
+.contact-texture {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 12% 15%, rgba(184, 147, 90, 0.16), transparent 45%),
+    radial-gradient(circle at 90% 85%, rgba(184, 147, 90, 0.14), transparent 50%),
+    repeating-linear-gradient(135deg, rgba(247, 242, 234, 0.025) 0px, rgba(247, 242, 234, 0.025) 1px, transparent 1px, transparent 26px);
+  pointer-events: none;
+}
+
+.contact-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  align-items: center;
+  gap: 56px;
+}
+
+.contact-copy { text-align: left; }
+
+.contact-address {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1rem;
+  color: rgba(247, 242, 234, 0.75);
+  margin: 20px 0 20px;
+}
+
+.contact-address svg { color: var(--gold-light); flex-shrink: 0; }
+
+.contact-hours {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 0 36px;
+}
+
+.contact-hours svg { color: var(--gold-light); flex-shrink: 0; margin-top: 3px; }
+.contact-hours dl { margin: 0; }
+
+.contact-hours dl > div {
+  display: flex;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: rgba(247, 242, 234, 0.75);
+  padding: 3px 0;
+}
+
+.contact-hours dt { font-weight: 500; color: rgba(247, 242, 234, 0.95); min-width: 70px; }
+.contact-hours dd { margin: 0; }
+
+.section-dark .btn-primary { background: var(--gold-light); color: var(--black); border-color: var(--gold-light); }
+.section-dark .btn-primary:hover,
+.section-dark .btn-primary:focus-visible {
+  background: var(--black);
+  color: var(--gold-light);
+  border-color: var(--gold-light);
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-dark .btn-primary:hover, .section-dark .btn-primary:focus-visible { transform: none; }
+}
+
+.contact-cta {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.follow-us {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.follow-us-label {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+}
+
+.social-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(247, 242, 234, 0.06);
+  border: 1px solid rgba(212, 180, 131, 0.3);
+  color: var(--gold-light);
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.social-icon:hover,
+.social-icon:focus-visible {
+  background: var(--gold-light);
+  border-color: var(--gold-light);
+  color: var(--black);
+}
+
+.map-wrap { border-radius: 0; overflow: hidden; border: 1px solid rgba(247, 242, 234, 0.15); }
+
+.map-wrap iframe {
+  width: 100%;
+  height: 380px;
+  border: 0;
+  display: block;
+  filter: grayscale(0.3) contrast(1.05);
+}
+
+@media (max-width: 860px) {
+  .contact-grid { grid-template-columns: 1fr; text-align: center; }
+  .contact-copy { text-align: center; }
+  .contact-address { justify-content: center; }
+  .contact-hours { justify-content: center; }
+  .contact-hours dl > div { justify-content: center; }
+  .follow-us { align-items: center; }
+  .social-links { justify-content: center; }
+}
+
+/* ---------- Mobile persistent CTA ---------- */
+
+.mobile-cta {
+  display: none;
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  /* above page content, below the header (100) so the nav overlay covers it */
+  z-index: 90;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 22px;
+  border-radius: 0;
+  background: var(--black);
+  color: var(--cream);
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 500;
+  white-space: nowrap;
+  border: 1px solid rgba(212, 180, 131, 0.4);
+  /* hidden over the hero, revealed via body.is-past-hero (set in script.js)
+     once the visitor scrolls past it — opacity only, so its position/layout
+     never shifts and the hover transform below still applies untouched */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+body.is-past-hero .mobile-cta {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-cta:hover,
+.mobile-cta:focus-visible {
+  background: var(--cream);
+  color: var(--black);
+  transform: translate(-50%, -3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-cta { transition: opacity 0.2s ease, background-color 0.2s ease, color 0.2s ease; }
+  .mobile-cta:hover, .mobile-cta:focus-visible { transform: translateX(-50%); }
+}
+
+@media (max-width: 640px) {
+  .mobile-cta {
+    display: inline-flex;
+    bottom: max(18px, env(safe-area-inset-bottom));
+  }
+}
+
+/* ---------- Cart badge (index.html — consolidated cart carried over from services.html) ---------- */
+
+/* display is set only via :not([hidden]) — see the .modal comment above for
+   why an unconditional display here would defeat the hidden attribute. */
+.cart-badge {
+  position: fixed;
+  z-index: 90;
+  align-items: center;
+  gap: 16px;
+  background: var(--black);
+  color: var(--cream);
+  border: 1px solid rgba(212, 180, 131, 0.4);
+  padding: 14px 22px;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.cart-badge:not([hidden]) {
+  display: inline-flex;
+  right: 32px;
+  bottom: 24px;
+}
+
+.cart-badge:hover,
+.cart-badge:focus-visible {
+  background: var(--cream);
+  color: var(--black);
+  transform: translateY(-3px);
+}
+
+.cart-badge-count,
+.cart-badge-total {
+  font-family: var(--font-serif);
+  color: var(--gold-light);
+}
+
+.cart-badge:hover .cart-badge-count,
+.cart-badge:hover .cart-badge-total,
+.cart-badge:focus-visible .cart-badge-count,
+.cart-badge:focus-visible .cart-badge-total { color: var(--gold-deep); }
+
+.cart-badge-cta {
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cart-badge { transition: background-color 0.2s ease, color 0.2s ease; }
+  .cart-badge:hover, .cart-badge:focus-visible { transform: none; }
+}
+
+@media (max-width: 640px) {
+  .cart-badge:not([hidden]) {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: space-between;
+    padding: 14px 20px max(14px, env(safe-area-inset-bottom));
+  }
+}
+
+body.has-cart-badge main { padding-bottom: 120px; }
+
+@media (max-width: 640px) {
+  body.has-cart-badge .mobile-cta { display: none; }
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  background: var(--black-soft);
+  color: rgba(247, 242, 234, 0.6);
+  padding: 128px 0 0;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: var(--sp-6);
+  padding-bottom: var(--sp-12);
+}
+
+.footer-col .logo { color: var(--gold-light); font-size: 1.4rem; display: block; margin-bottom: var(--sp-2); }
+
+.footer-brand p {
+  font-size: 13px;
+  line-height: 1.9;
+  color: rgba(247, 242, 234, 0.55);
+  margin: 0;
+  max-width: 26ch;
+}
+
+.footer-col h3 {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(247, 242, 234, 0.85);
+  margin: 0 0 var(--sp-3);
+}
+
+.footer-col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-col li { margin-bottom: var(--sp-2); }
+
+.footer-col a {
+  position: relative;
+  display: inline-block;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  line-height: 2;
+  color: rgba(247, 242, 234, 0.6);
+  transition: color 0.2s ease;
+}
+
+.footer-col a::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 2px;
+  height: 1px;
+  background: var(--gold-light);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease;
+}
+
+.footer-col a:hover,
+.footer-col a:focus-visible { color: var(--gold-light); }
+
+.footer-col a:hover::after,
+.footer-col a:focus-visible::after { transform: scaleX(1); }
+
+.footer-col p {
+  font-size: 13px;
+  line-height: 1.9;
+  color: rgba(247, 242, 234, 0.6);
+  margin: 0 0 var(--sp-3);
+}
+
+.footer-bottom {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  padding: var(--sp-3) 0;
+  border-top: 1px solid rgba(247, 242, 234, 0.1);
+  font-size: 12px;
+  color: rgba(247, 242, 234, 0.45);
+}
+
+.footer-bottom p { margin: 0; }
+
+.footer-legal a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+
+.footer-legal a:hover,
+.footer-legal a:focus-visible { color: var(--gold-light); }
+
+.footer-legal .divider { margin: 0 8px; opacity: 0.6; }
+
+.footer-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--gold-light);
+}
+
+@media (max-width: 780px) {
+  /* bottom padding reserves room for the floating CTA, so the copyright bar is
+     never hidden behind it at the very end of the page */
+  .site-footer { padding-top: 72px; padding-bottom: 96px; }
+  .footer-grid {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    gap: var(--sp-8);
+    padding-bottom: var(--sp-8);
+  }
+  .footer-brand p { max-width: none; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+}
+
+/* ---------- Scroll reveal (single site-wide entrance treatment) ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+.card-facials { transition-delay: 0.08s; }
+.card-nails { transition-delay: 0.16s; }
+.card-waxing { transition-delay: 0.08s; }
+
+.editorial-row:nth-of-type(2) { transition-delay: 0.08s; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 600px) {
+  /* One gutter for the whole page at mobile. The hero and the editorial copy
+     set their own horizontal padding, so they are matched here explicitly —
+     otherwise those blocks sit 28px in while every container section sits
+     20px in, and the page reads as two different left edges. */
+  .container { padding: 0 24px; }
+  .hero-inner { padding-left: 24px; padding-right: 24px; }
+  .editorial-copy { padding-left: 24px; padding-right: 24px; }
+  .btn-primary { width: 100%; justify-content: center; }
+}
+
+/* ==========================================================================
+   Service selection & WhatsApp booking (services.html)
+   ========================================================================== */
+
+/* ---------- Selectable price rows ---------- */
+
+/* the icon lives in a reserved gutter pulled out of the list's own left
+   margin, so its opacity fade never shifts the price-name text that must
+   stay aligned with the category heading above it */
+.price-list-full { margin-left: -26px; }
+
+.price-row {
+  position: relative;
+  padding: 14px 12px 14px 26px;
+  margin-left: 0;
+  cursor: pointer;
+  border-radius: 0;
+  background-color: transparent;
+  transition: background-color 0.2s ease;
+}
+
+.price-row:hover,
+.price-row:focus-visible {
+  background-color: rgba(26, 23, 20, 0.045);
+}
+
+.price-row.is-selected {
+  background-color: rgba(184, 147, 90, 0.1);
+}
+
+.price-row.is-selected:hover,
+.price-row.is-selected:focus-visible {
+  background-color: rgba(184, 147, 90, 0.15);
+}
+
+.price-row:focus-visible {
+  outline: 2px solid var(--gold-deep);
+  outline-offset: -2px;
+}
+
+.price-row.is-selected .price-name {
+  font-weight: 500;
+}
+
+.price-select-icon {
+  position: absolute;
+  left: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-muted);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.price-row:hover .price-select-icon,
+.price-row:focus-visible .price-select-icon,
+.price-row.is-selected .price-select-icon {
+  opacity: 1;
+}
+
+.price-row.is-selected .price-select-icon {
+  color: var(--gold-deep);
+}
+
+.price-select-icon svg { display: block; }
+
+.price-select-icon .icon-check { display: none; }
+
+.price-row.is-selected .price-select-icon .icon-plus { display: none; }
+.price-row.is-selected .price-select-icon .icon-check { display: block; }
+
+@media (max-width: 600px) {
+  .price-list-full { margin-left: -22px; }
+  .price-row { padding-left: 22px; }
+  .price-select-icon { left: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .price-row,
+  .price-select-icon { transition: none; }
+}
+
+/* room for the selected-services panel/bar so the last rows on the page
+   stay reachable and are never covered by it */
+body.has-selection main { padding-bottom: 280px; }
+
+@media (max-width: 640px) {
+  body.has-selection main { padding-bottom: 120px; }
+  body.has-selection .mobile-cta { display: none; }
+}
+
+/* ---------- Selection panel (desktop) ---------- */
+
+.selection-panel {
+  position: fixed;
+  right: 32px;
+  bottom: 24px;
+  z-index: 95;
+  width: min(360px, calc(100vw - 64px));
+  background: var(--black);
+  color: var(--cream);
+  padding: 24px;
+  border: 1px solid rgba(212, 180, 131, 0.25);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+}
+
+.selection-panel.is-visible { opacity: 1; transform: translateY(0); }
+
+.selection-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.selection-count,
+.selection-bar-count {
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(247, 242, 234, 0.65);
+}
+
+.selection-clear {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: rgba(247, 242, 234, 0.75);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.selection-clear:hover,
+.selection-clear:focus-visible { color: var(--gold-light); }
+
+/* Collapses to zero height rather than toggling display, so the combo
+   message folds away smoothly if a removed item drops the count below 3 —
+   grid-template-rows animates cleanly where max-height cannot (no fixed
+   value to guess), and needs no JS height measurement. */
+.selection-combo-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.25s var(--ease);
+}
+
+.selection-combo-wrap.is-active { grid-template-rows: 1fr; }
+
+.selection-combo-inner { overflow: hidden; }
+
+.selection-combo {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  background: rgba(184, 147, 90, 0.14);
+  border: 1px solid rgba(212, 180, 131, 0.35);
+  color: var(--gold-light);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .selection-combo-wrap { transition: none; }
+}
+
+.selection-list {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.selection-item {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(247, 242, 234, 0.12);
+  font-size: 0.88rem;
+}
+
+.selection-item:last-child { border-bottom: none; }
+
+.selection-item-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: var(--cream);
+}
+
+.selection-item-price {
+  flex: 0 0 auto;
+  font-family: var(--font-serif);
+  color: var(--gold-light);
+}
+
+.selection-item-remove {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: rgba(247, 242, 234, 0.55);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.selection-item-remove:hover,
+.selection-item-remove:focus-visible { color: var(--cream); }
+
+.selection-panel-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.selection-total {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: var(--cream);
+}
+
+.selection-book {
+  flex: 0 0 auto;
+  padding: 13px 20px;
+  font-size: 0.85rem;
+  background: var(--cream);
+  color: var(--black);
+  border: 1px solid var(--cream);
+}
+
+.selection-book:hover,
+.selection-book:focus-visible {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--black);
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .selection-panel { transition: opacity 0.25s ease; }
+  .selection-book:hover, .selection-book:focus-visible { transform: none; }
+}
+
+@media (max-width: 640px) {
+  .selection-panel { display: none; }
+}
+
+/* ---------- Selection bar + sheet (mobile) ---------- */
+
+.selection-bar,
+.selection-sheet,
+.selection-backdrop { display: none; }
+
+@media (max-width: 640px) {
+  .selection-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 96;
+    background: rgba(26, 23, 20, 0.3);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .selection-backdrop.is-visible { opacity: 1; pointer-events: auto; }
+
+  .selection-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 97;
+    padding: 14px 20px max(14px, env(safe-area-inset-bottom));
+    background: var(--black);
+    border-top: 1px solid rgba(212, 180, 131, 0.25);
+    opacity: 0;
+    transform: translateY(100%);
+    transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+  }
+
+  .selection-bar.is-visible { opacity: 1; transform: translateY(0); }
+
+  .selection-bar-summary {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1 1 auto;
+    min-width: 0;
+    gap: 2px;
+    background: none;
+    border: 0;
+    padding: 4px 0;
+    cursor: pointer;
+  }
+
+  .selection-bar-count { white-space: nowrap; }
+
+  .selection-bar-total {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    color: var(--cream);
+    white-space: nowrap;
+  }
+
+  /* .btn-primary sets width:100% at this breakpoint for the page's other
+     full-width buttons — override it here, since this one shares a fixed
+     flex row with the summary and must keep its own compact width instead
+     of claiming the whole bar and pushing off-screen. */
+  .selection-bar .selection-book {
+    flex: 0 0 auto;
+    width: auto;
+    padding: 12px 18px;
+    font-size: 0.82rem;
+    white-space: nowrap;
+  }
+
+  .selection-sheet {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 98;
+    max-height: 70vh;
+    background: var(--black);
+    border-top: 1px solid rgba(212, 180, 131, 0.25);
+    padding: 20px 20px max(20px, env(safe-area-inset-bottom));
+    opacity: 0;
+    transform: translateY(100%);
+    transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+  }
+
+  .selection-sheet.is-visible { opacity: 1; transform: translateY(0); }
+
+  .selection-sheet-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .selection-sheet-title {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    color: var(--cream);
+  }
+
+  .selection-sheet-close {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: 0;
+    color: rgba(247, 242, 234, 0.7);
+    cursor: pointer;
+  }
+
+  .selection-sheet-close:hover,
+  .selection-sheet-close:focus-visible { color: var(--cream); }
+
+  .selection-sheet .selection-list { max-height: none; flex: 1 1 auto; }
+
+  .selection-sheet .selection-panel-footer { padding-top: 4px; }
+
+  .selection-sheet .selection-clear {
+    flex: 0 0 auto;
+    padding: 10px 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .selection-bar, .selection-sheet, .selection-backdrop { transition: opacity 0.2s ease; }
+}
+
+/* ---------- Booking modal ---------- */
+
+/* display is set only via :not([hidden]) — an unconditional "display: flex"
+   here would out-rank the browser's [hidden]{display:none} rule regardless
+   of the hidden attribute, leaving this full-viewport, z-index:200 overlay
+   sitting over the entire page (invisible, but still catching every click)
+   from first load, before the modal is ever opened. */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal:not([hidden]) { display: flex; }
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 23, 20, 0.55);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.modal.is-visible .modal-backdrop { opacity: 1; }
+
+.modal-panel {
+  position: relative;
+  z-index: 1;
+  width: min(480px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  background: var(--cream);
+  padding: 40px;
+  opacity: 0;
+  transform: translateY(16px) scale(0.98);
+  transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+}
+
+.modal.is-visible .modal-panel { opacity: 1; transform: translateY(0) scale(1); }
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 0;
+  color: var(--ink-muted);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.modal-close:hover,
+.modal-close:focus-visible { color: var(--black); }
+
+.modal-panel h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  padding-right: 24px;
+}
+
+.modal-combo {
+  margin: -8px 0 24px;
+  padding: 10px 12px;
+  background: rgba(184, 147, 90, 0.12);
+  border: 1px solid rgba(184, 147, 90, 0.35);
+  color: var(--gold-deep);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.modal-summary {
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-summary-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin: 0 0 12px;
+}
+
+.modal-summary-list {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+}
+
+.modal-summary-list li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+  font-size: 0.9rem;
+  color: var(--ink);
+}
+
+.modal-summary-list .item-price {
+  flex: 0 0 auto;
+  font-family: var(--font-serif);
+  color: var(--black);
+}
+
+.modal-summary-total {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: var(--black);
+}
+
+.form-field { margin-bottom: 20px; }
+
+.form-field label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.form-optional { text-transform: none; letter-spacing: 0; }
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: var(--cream-alt);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  color: var(--ink);
+  transition: border-color 0.2s ease;
+}
+
+.form-field input:focus-visible,
+.form-field select:focus-visible,
+.form-field textarea:focus-visible {
+  outline: 2px solid var(--gold-deep);
+  outline-offset: 1px;
+  border-color: var(--gold-deep);
+}
+
+.form-field textarea { resize: vertical; min-height: 72px; }
+
+.form-field input[type="date"] { cursor: pointer; }
+
+/* native select chrome reset, sharp corners kept via the shared rule above;
+   custom chevron replaces the browser default so it matches the site's line
+   icons rather than each OS's own arrow glyph */
+.form-field select {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  padding-right: 40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%236b6259' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 13px;
+}
+
+.form-field select:invalid { color: var(--ink-muted); }
+
+.form-error {
+  margin: 8px 0 0;
+  font-size: 0.8rem;
+  color: #a13c2f;
+}
+
+.form-field.has-error input,
+.form-field.has-error textarea { border-color: #a13c2f; }
+
+.modal-submit { width: 100%; justify-content: center; margin-top: 4px; }
+
+@media (max-width: 480px) {
+  .modal-panel { padding: 28px 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-backdrop, .modal-panel { transition: opacity 0.2s ease; }
+  .modal-panel { transform: none; }
+  .modal.is-visible .modal-panel { transform: none; }
+}
+
+/* ---------- WhatsApp gate (offered when booking with an empty cart) ---------- */
+
+.whatsapp-gate-panel { max-width: 420px; }
+
+.whatsapp-gate-copy {
+  margin: 0 0 28px;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+.whatsapp-gate-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.whatsapp-gate-choose {
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  width: 100%;
+}
+
+.whatsapp-gate-tag {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.whatsapp-gate-skip {
+  padding: 10px 0;
+  background: none;
+  border: 0;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.whatsapp-gate-skip:hover,
+.whatsapp-gate-skip:focus-visible { color: var(--black); }

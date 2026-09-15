@@ -1,0 +1,24 @@
+# OS / tooling
+.DS_Store
+node_modules/
+.env
+.claude/
+.impeccable/
+
+# Raw source media — never commit originals, only the optimized assets the site references
+*.mov
+*.psd
+*.ai
+
+# Unused source screenshots / superseded originals (not referenced in index.html)
+images/Screenshot*.png
+images/hero.png
+images/hero new.png
+images/hero-poster.jpg
+images/gallery-haircut.png
+images/gallery-styling-station.png
+
+# Unused/superseded video sources (not referenced in index.html)
+videos/hero-source.mov
+videos/hero.mp4
+videos/vecteezy_*.mp4
