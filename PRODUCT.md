@@ -36,7 +36,7 @@ A family-run salon: owner Liana Nel and her daughter Carla Nel run the floor tog
 - Gallery photos are real photos of the actual salon and team, supplied by the client (`images/hero-image.jpg`, `images/customer-care.jpg`, `images/two-generations.jpg`, `images/treat-yourself.jpg`, plus unused-for-now `our-team-1.jpg`, `our-team-2.jpg`, `laugh-with-us.jpg`, `product-range.jpg`, `storefront.jpg`).
 - **Open / not yet real — do not treat as launch-ready:**
   - **Full price list** (`services.html` and the category list in `index.html#services`) still shows the previous client's (K3 Hair & Beauty Salon's) real pricing and service categories (Threading, Waxing, Facials, Nails, Hair, Make-up, Massage, Mehndi). This has NOT been confirmed for House of Hair & Beauty and must be replaced with real services/pricing before launch. Flagged with `TODO` HTML comments in both files.
-  - **Social media links** (Instagram, TikTok, Facebook) are placeholder `#` hrefs — real handles not yet supplied.
+  - **TikTok** is still a placeholder `#` href — real handle not yet supplied. Instagram (`houseofhair_stb`) and Facebook are real and live.
   - **Business email** — not yet supplied; privacy-policy.html and terms.html currently route contact via phone/WhatsApp only.
   - **WhatsApp number** is a temporary personal number provided by the client, not the salon's own — replace once the salon has one.
 
