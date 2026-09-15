@@ -413,9 +413,12 @@ body.nav-open .nav-toggle span { background: var(--black); }
 .hero-scrim {
   position: absolute;
   inset: 0;
-  /* strongest behind the nav, fading out by ~70% down the hero, for
-     legibility over a bright image (white ceiling, silver lamps, mirrors) */
-  background: linear-gradient(180deg, rgba(43, 43, 43, 0.5) 0%, rgba(43, 43, 43, 0.15) 40%, transparent 70%);
+  /* left gradient darkens the text column (headline/tagline/CTA live in the
+     left third) fading out by ~60% across the hero, so the salon interior on
+     the right stays visible; top gradient keeps the nav legible */
+  background:
+    linear-gradient(90deg, rgba(43, 43, 43, 0.6) 0%, rgba(43, 43, 43, 0.35) 30%, transparent 60%),
+    linear-gradient(180deg, rgba(43, 43, 43, 0.5) 0%, transparent 25%);
 }
 
 .hero-inner {
@@ -547,36 +550,21 @@ a.btn-hero {
 
 /* ---------- Services index (home) ---------- */
 
-.services-layout {
-  display: grid;
-  grid-template-columns: 0.85fr 1.15fr;
-  gap: var(--sp-12);
-  align-items: center;
-}
-
-.services-media img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-}
-
-@media (max-width: 780px) {
-  .services-layout { grid-template-columns: 1fr; gap: var(--sp-6); }
-  .services-media img { aspect-ratio: 4 / 3; }
-}
-
 /* The eight category names as a plain typographic list. Prices live on
    services.html, so the home page names the categories and nothing else. */
 .service-index {
   list-style: none;
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
-  max-width: 480px;
+  max-width: 760px;
   display: grid;
-  grid-auto-flow: row;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0 var(--sp-8);
+  grid-auto-flow: column;
+  grid-template-rows: repeat(4, auto);
+  gap: 0 var(--sp-12);
+}
+
+@media (max-width: 700px) {
+  .service-index { grid-auto-flow: row; grid-template-rows: none; }
 }
 
 .service-index li {
@@ -607,7 +595,7 @@ a.btn-hero {
 
 .service-index-cta {
   margin-top: var(--sp-8);
-  text-align: left;
+  text-align: center;
 }
 
 /* Text link for light backgrounds. Uses ink rather than the gold accent, which
@@ -636,6 +624,25 @@ a.btn-hero {
 /* ---------- Price list page ---------- */
 
 .page-head { padding-bottom: var(--sp-8); }
+
+.services-layout {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: var(--sp-12);
+  align-items: center;
+}
+
+.services-media img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+@media (max-width: 780px) {
+  .services-layout { grid-template-columns: 1fr; gap: var(--sp-6); }
+  .services-media img { aspect-ratio: 4 / 3; }
+}
 
 .page-title {
   font-family: var(--font-serif);
