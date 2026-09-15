@@ -13,7 +13,50 @@ document.addEventListener('DOMContentLoaded', () => {
   initServiceSelection();
   initCartBadge();
   initWhatsAppGate();
+  initCategoryIndex();
 });
+
+// ---------- Price list category sidebar (scroll-spy) ----------
+// Highlights whichever category is currently in view as the visitor scrolls
+// the price list, so the sidebar always shows where they are at a glance.
+
+function initCategoryIndex() {
+  const links = Array.from(document.querySelectorAll('.cat-index a'));
+  if (!links.length) return;
+
+  const groups = links
+    .map(link => document.getElementById(link.getAttribute('href').slice(1)))
+    .filter(Boolean);
+  if (!groups.length) return;
+
+  function setActive(id) {
+    links.forEach(link => {
+      link.classList.toggle('is-active', link.getAttribute('href') === `#${id}`);
+    });
+  }
+
+  setActive(groups[0].id);
+
+  links.forEach(link => {
+    link.addEventListener('click', () => setActive(link.getAttribute('href').slice(1)));
+  });
+
+  if (!('IntersectionObserver' in window)) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    // among groups currently crossing the trigger band, the one nearest the
+    // top of the viewport is the "current" category
+    const visible = entries.filter(e => e.isIntersecting);
+    if (!visible.length) return;
+    visible.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+    setActive(visible[0].target.id);
+  }, {
+    rootMargin: '-120px 0px -70% 0px',
+    threshold: 0
+  });
+
+  groups.forEach(group => observer.observe(group));
+}
 
 // ---------- Shared cart storage ----------
 // sessionStorage (not localStorage) so a selection made on the price list
