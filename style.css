@@ -535,20 +535,18 @@ a.btn-hero {
 
 /* Anchor targets: offset by the fixed header's height plus a small buffer,
    so a jump-to never leaves the section heading hidden underneath it */
-#the-space, #services, #reviews, #testimonials, #contact { scroll-margin-top: 112px; }
+#the-space, #experience, #services, #testimonials, #contact { scroll-margin-top: 112px; }
 
 /* mobile header is 64px — clear it plus a comfortable buffer so a heading is
    never sliced by the bar it lands under */
 @media (max-width: 780px) {
-  #the-space, #services, #reviews, #testimonials, #contact { scroll-margin-top: 96px; }
+  #the-space, #experience, #services, #testimonials, #contact { scroll-margin-top: 96px; }
 }
 
 /* Sections that follow a full-bleed image/video: sit flush, no dead cream band */
-#testimonials { padding-top: var(--sp-4); }
+#services { padding-top: var(--sp-4); }
 
-/* Testimonials are a tight, single block — no oversized default section padding.
-   Kept deliberately tighter than most sections so the video + full testimonial
-   block (heading, quote, attribution, indicators) fit one viewport together. */
+/* Testimonials are a tight, single block — no oversized default section padding. */
 #testimonials { padding-bottom: var(--sp-6); }
 
 .section-dark {
@@ -562,7 +560,7 @@ a.btn-hero {
 
 @media (max-width: 780px) {
   .section { padding: 72px 0; }
-  #testimonials { padding-top: var(--sp-4); }
+  #services { padding-top: var(--sp-4); }
   #testimonials { padding-bottom: var(--sp-6); }
 }
 
