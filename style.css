@@ -427,9 +427,12 @@ body.nav-open .nav-toggle span { background: var(--black); }
   padding-left: 7vw;
 }
 
+/* Hero text always sits on the photo + dark scrim, regardless of viewport,
+   so it stays off-white/brown here rather than the charcoal used for body
+   text elsewhere on light backgrounds. */
 .hero-mark {
   margin: 0 0 18px;
-  color: var(--black);
+  color: var(--cream);
 }
 
 .hero-mark-brand {
@@ -439,7 +442,8 @@ body.nav-open .nav-toggle span { background: var(--black); }
   font-size: clamp(2.2rem, 4.6vw, 3.4rem);
   line-height: 1.05;
   letter-spacing: -0.02em;
-  color: var(--black);
+  color: var(--cream);
+  text-shadow: 0 4px 30px rgba(43, 43, 43, 0.4);
 }
 
 .hero-mark-name {
@@ -449,7 +453,7 @@ body.nav-open .nav-toggle span { background: var(--black); }
   font-size: clamp(0.85rem, 1.3vw, 1rem);
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--ink);
+  color: rgba(247, 242, 234, 0.8);
   margin-top: 8px;
 }
 
@@ -457,7 +461,7 @@ body.nav-open .nav-toggle span { background: var(--black); }
   font-family: var(--font-serif);
   font-style: italic;
   font-size: clamp(1.1rem, 1.6vw, 1.3rem);
-  color: var(--gold-deep);
+  color: var(--gold-light);
   margin: 0 0 32px;
 }
 
@@ -466,9 +470,9 @@ body.nav-open .nav-toggle span { background: var(--black); }
   align-items: center;
   gap: 10px;
   padding: 13px 26px;
-  border: 1.5px solid var(--black);
+  border: 1.5px solid var(--cream);
   border-radius: 0;
-  color: var(--black);
+  color: var(--cream);
   background: transparent;
   font-family: var(--font-sans);
   font-size: 0.76rem;
@@ -483,8 +487,8 @@ a.btn-hero {
 
 .btn-hero:hover,
 .btn-hero:focus-visible {
-  background: var(--black);
-  color: var(--cream);
+  background: var(--cream);
+  color: var(--black);
   transform: translateY(-2px);
 }
 
@@ -497,12 +501,6 @@ a.btn-hero {
 @media (max-width: 780px) {
   .hero-inner { max-width: 100%; padding-left: 28px; padding-right: 28px; }
   .hero-media img { object-position: 80% 38%; }
-  .hero-mark, .hero-mark-brand, .hero-mark-name { color: var(--cream); }
-  .hero-mark-brand { text-shadow: 0 4px 30px rgba(43, 43, 43, 0.4); }
-  .hero-mark-name { color: rgba(247, 242, 234, 0.8); }
-  .tagline { color: var(--gold-light); }
-  .btn-hero { border-color: var(--cream); color: var(--cream); }
-  .btn-hero:hover, .btn-hero:focus-visible { background: var(--cream); color: var(--black); }
   .hero-scrim {
     background:
       linear-gradient(180deg, rgba(43, 43, 43, 0.5) 0%, rgba(43, 43, 43, 0.15) 40%, transparent 70%),
@@ -879,6 +877,19 @@ a.btn-hero {
   z-index: -2;
 }
 
+/* This band is much wider and shorter at desktop than on mobile, so
+   object-fit: cover crops a different (width-driven, not height-driven)
+   slice of the source photo — "center 30%" shows the plain counter and
+   blurred background chairs up top on a wide screen instead of the tray,
+   which sits in the lower half of the frame. Shift the focal point down
+   so the tray stays in view without touching the mobile crop. */
+@media (min-width: 781px) {
+  .experience-band video,
+  .experience-band img {
+    object-position: center 78%;
+  }
+}
+
 .experience-scrim {
   position: absolute;
   inset: 0;
@@ -904,10 +915,6 @@ a.btn-hero {
   max-width: 640px;
   margin-left: auto;
   margin-right: auto;
-}
-
-@media (max-width: 600px) {
-  .experience-band { height: 45vh; min-height: 320px; }
 }
 
 /* ---------- Gallery: alternating editorial rows ---------- */
