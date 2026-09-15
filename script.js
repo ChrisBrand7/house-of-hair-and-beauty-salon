@@ -616,9 +616,6 @@ function initServiceSelection() {
   const bookMobile = document.getElementById('selection-book-mobile');
   const barToggle = document.getElementById('selection-bar-toggle');
   const sheetClose = document.getElementById('selection-sheet-close');
-  const comboWrapDesktop = document.getElementById('selection-combo-wrap-desktop');
-  const comboWrapMobile = document.getElementById('selection-combo-wrap-mobile');
-  const COMBO_THRESHOLD = 3;
 
   let sheetOpen = false;
 
@@ -680,10 +677,6 @@ function initServiceSelection() {
 
     document.body.classList.toggle('has-selection', count > 0);
 
-    const comboQualified = count >= COMBO_THRESHOLD;
-    comboWrapDesktop.classList.toggle('is-active', comboQualified);
-    comboWrapMobile.classList.toggle('is-active', comboQualified);
-
     if (count > 0) {
       showEl(panel);
       showEl(bar);
@@ -730,7 +723,6 @@ function initServiceSelection() {
   const nameError = document.getElementById('booking-name-error');
   const dayError = document.getElementById('booking-day-error');
   const timeError = document.getElementById('booking-time-error');
-  const modalCombo = document.getElementById('modal-combo');
 
   // today's date as YYYY-MM-DD in the visitor's own timezone (not UTC, which
   // toISOString would give and could roll back to yesterday in the evening)
@@ -807,7 +799,6 @@ function initServiceSelection() {
     });
     const { sum, anyFrom } = computeTotals();
     modalSummaryTotal.textContent = `Estimated total: ${formatTotal(sum, anyFrom)}`;
-    modalCombo.hidden = selections.size < COMBO_THRESHOLD;
 
     modalOpen = true;
     modal.hidden = false;
@@ -879,8 +870,8 @@ function initServiceSelection() {
     closeModal();
   });
 
-  // Reflects any selections just restored from sessionStorage — shows the
-  // panel/bar, combo banner and totals immediately if the visitor is
-  // returning to the price list with items already in their cart.
+  // Reflects any selections just restored from sessionStorage, showing the
+  // panel/bar and totals immediately if the visitor is returning to the
+  // price list with items already in their cart.
   renderSelections();
 }
