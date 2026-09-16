@@ -632,40 +632,6 @@ body.page-services { background: var(--cream); }
 
 .page-head { padding-bottom: var(--sp-8); }
 
-.services-layout {
-  display: grid;
-  /* text column first (1.15fr), photo column second (0.85fr) — the photo
-     sits on the right, so `order` puts the DOM's media block into the
-     second track while keeping its narrower proportion. */
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: var(--sp-12);
-  /* stretch rather than centre a fixed-ratio box, so the photo fills the
-     full height of the text column beside it instead of leaving whitespace
-     under a shorter image */
-  align-items: stretch;
-}
-
-.services-media { order: 2; }
-.page-head-intro { order: 1; }
-
-.services-media img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  min-height: 420px;
-  object-fit: cover;
-  /* biased down and off-centre onto the stylist/client moment — the shelf
-     edge at the very top of the source photo crops awkwardly at 50/50 */
-  object-position: 60% 65%;
-}
-
-@media (max-width: 780px) {
-  .services-layout { grid-template-columns: 1fr; gap: var(--sp-6); }
-  .services-media { order: 1; }
-  .page-head-intro { order: 2; }
-  .services-media img { height: auto; min-height: 0; aspect-ratio: 4 / 3; }
-}
-
 .page-title {
   font-family: var(--font-serif);
   font-weight: 400;
