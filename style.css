@@ -641,10 +641,7 @@ a.btn-hero {
 
 /* ---------- Price list page ---------- */
 
-/* This page reads brighter than the rest of the site — pure white rather
-   than the warm cream used elsewhere — while the tinted price-section
-   below still uses the standard cream-alt, giving the page its own rhythm. */
-body.page-services { background: #ffffff; }
+body.page-services { background: var(--cream); }
 
 .page-head { padding-bottom: var(--sp-8); }
 
@@ -702,11 +699,10 @@ body.page-services { background: #ffffff; }
   color: var(--ink-muted);
 }
 
-/* A tinted band + hairline, rather than one long stretch of matching
-   whitespace between the intro and the price table below it. */
+/* Divider + extra space, not a background tint, separates the intro from
+   the price table below it — the whole page stays one flat cream. */
 .price-section {
-  padding-top: var(--sp-6);
-  background: var(--cream-alt);
+  padding-top: var(--sp-8);
   border-top: 1px solid var(--border);
 }
 
@@ -787,13 +783,11 @@ body.page-services { background: #ffffff; }
 .cat-index a:focus-visible { color: var(--black); border-bottom-color: var(--gold); }
 
 /* The category currently in view as the visitor scrolls (tracked in
-   script.js) — colour alone isn't enough at this size, so a soft
-   background wash makes it unmistakable at a glance. */
+   script.js) — a text colour change plus the same underline treatment
+   used on the section headings, no box or fill. */
 .cat-index a.is-active {
   color: var(--gold-deep);
-  background: rgba(111, 78, 55, 0.1);
   border-bottom-color: var(--gold-deep);
-  padding-left: 10px;
 }
 
 .price-group {
@@ -836,10 +830,6 @@ body.page-services { background: #ffffff; }
   color: var(--ink);
   break-inside: avoid;
 }
-
-/* A little more weight than a plain list of lines: alternating rows read
-   as a considered table rather than bare text. */
-.price-row:nth-child(even) { background: rgba(43, 43, 43, 0.03); }
 
 .price-name { flex: 1 1 auto; line-height: 1.3; }
 
