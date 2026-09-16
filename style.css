@@ -264,23 +264,10 @@ body.nav-open .nav a { text-shadow: none; }
   justify-self: end;
 }
 
-/* Hidden over the hero (nothing to compete with the hero's own WhatsApp CTA)
-   and revealed once the visitor has scrolled past it — driven by the same
-   body.is-past-hero flag as the mobile floating button, set in script.js.
-   Opacity/pointer-events only, so the hamburger button never shifts. */
+/* Always visible in the header, over the hero included — the primary
+   conversion action must be reachable from any scroll position. */
 .header-actions .btn-small {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-}
-
-body.is-past-hero .header-actions .btn-small {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .header-actions .btn-small { transition: opacity 0.2s ease, background-color 0.2s ease, color 0.2s ease; }
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
 .nav-toggle {
@@ -647,13 +634,19 @@ body.page-services { background: var(--cream); }
 
 .services-layout {
   display: grid;
-  grid-template-columns: 0.85fr 1.15fr;
+  /* text column first (1.15fr), photo column second (0.85fr) — the photo
+     sits on the right, so `order` puts the DOM's media block into the
+     second track while keeping its narrower proportion. */
+  grid-template-columns: 1.15fr 0.85fr;
   gap: var(--sp-12);
   /* stretch rather than centre a fixed-ratio box, so the photo fills the
      full height of the text column beside it instead of leaving whitespace
      under a shorter image */
   align-items: stretch;
 }
+
+.services-media { order: 2; }
+.page-head-intro { order: 1; }
 
 .services-media img {
   display: block;
@@ -668,6 +661,8 @@ body.page-services { background: var(--cream); }
 
 @media (max-width: 780px) {
   .services-layout { grid-template-columns: 1fr; gap: var(--sp-6); }
+  .services-media { order: 1; }
+  .page-head-intro { order: 2; }
   .services-media img { height: auto; min-height: 0; aspect-ratio: 4 / 3; }
 }
 
